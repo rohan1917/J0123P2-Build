@@ -19,15 +19,15 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body>
-    <button
+  <body onload="loadInitialData()">
+    <!-- <button
       type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
       data-bs-target="#showTask"
     >
       Launch demo modal
-    </button>
+    </button> -->
 
     <!-- Btn on Small Screen Size -->
     <div class="add__new__btn__mobile__only d-md-none">
@@ -61,7 +61,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form onsubmit="return false">
               <!-- img -->
               <div class="mb-3">
                 <label for="imageUrl" class="form-label">Image URL</label>
@@ -125,7 +125,13 @@
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onclick="handleSubmit()"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
