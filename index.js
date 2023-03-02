@@ -52,10 +52,10 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
     <div class='card shadow-sm task__card'>
     
       <div class='card-header d-flex justify-content-end task__card__header'>
-          <button type='button' class='btn btn-outline-primary mr-1.5' name=${id} onclick="editTask.apply(this, arguments)">
+          <button type='button' class='btn btn-outline-primary mr-2' name=${id} onclick="editTask.apply(this, arguments)">
               <i class='fas fa-pencil-alt name=${id}'></i>
           </button>
-           <button type='button' class='btn btn-outline-danger mr-1.5' name=${id} onclick="deleteTask.apply(this, arguments)">
+           <button type='button' class='btn btn-outline-danger mr-2' name=${id} onclick="deleteTask.apply(this, arguments)">
               <i class='fas fa-trash-alt name=${id}' ></i>
           </button>
       </div>
@@ -299,7 +299,7 @@ const saveEdit = (e) => {
       ? {
           id: task.id,
           title: updateData.taskTitle,
-          description: updateData.tataskDescription,
+          description: updateData.taskDescription,
           type: updateData.taskType,
           url: task.url,
         }
@@ -308,28 +308,31 @@ const saveEdit = (e) => {
   state.taskList = stateCopy;
   updateLocalStorage();
 
-
-   taskTitle.setAttribute("contenteditable", "false");
+  taskTitle.setAttribute("contenteditable", "false");
   taskDescription.setAttribute("contenteditable", "false");
   taskType.setAttribute("contenteditable", "false");
 
   submitButton.setAttribute("onclick", "openTask.apply(this, arguments)");
-    submitButton.setAttribute("data-bs-toggle", "modal");
+  submitButton.setAttribute("data-bs-toggle", "modal");
   submitButton.setAttribute("data-bs-target", "#showTask");
   submitButton.innerHTML = "Open Task";
 };
 
 // search
 const searchTask = (e) => {
-    if (!e) e = window.event;
+  if (!e) e = window.event;
 
-  while(taskContents.firstChild){
+  while (taskContents.firstChild) {
     taskContents.removeChild(taskContents.firstChild);
   }
-  const resultData = state.taskList.filter(({title}) => {
-    title.includes(e.target.value)
-  });
+  const resultData = state.taskList.filter(({ title }) =>
+    title.toLowerCase().includes(e.target.value.toLowerCase())
+  );
 
   // console.log(resultData);
-  
-}
+  resultData.map(
+    (cardData) =>
+      taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardData))
+    // taskContents.insertAdjacentHTML("beforeend", htmlModalContent(cardData))
+  );
+};
